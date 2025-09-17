@@ -1,38 +1,22 @@
-name: Manual Deploy
+name: Environment Selection Example
 
 on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Choose environment"
+        description: "Select Environment"
         required: true
         default: "dev"
         type: choice
         options:
-          - {input.environment}
+          - dev
+          - qa
+          - prod
 
 jobs:
-  deploy:
+  show-env:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Show selected environment
-        run: echo "Environment selected: ${{ github.event.inputs.environment }}"
-
-      - name: Run deployment
-        run: |
-          case "${{ github.event.inputs.environment }}" in
-            dev)
-              echo "🚀 Deploying to Development environment..."
-              ;;
-            qa)
-              echo "🧪 Deploying to QA environment..."
-              ;;
-            prod)
-              echo "🔥 Deploying to Production environment..."
-              ;;
-          esac
+        run: echo "You selected ${{ github.event.inputs.environment }} environment"
